@@ -17,7 +17,7 @@ static int count = 0;
 
 static int myioctl_open(struct inode *inode, struct file *filp);
 static int myioctl_release(struct inode *inode, struct file *filp);
-static int myioctl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+static long myioctl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
 
 static const struct file_operations myioctl_fops = {
 	.open = myioctl_open,
@@ -56,7 +56,7 @@ static long myioctl_ioctl(struct file *filp, unsigned int cmd, unsigned long arg
 	int err = 0;
 	int tmp;
 	
-	if (_IO_TYPE(cmd) != MYIOCTL_MAGIC){
+	if (_IOC_TYPE(cmd) != MYIOCTL_MAGIC){
 		pr_err("Incalid magic number\n");
 		return -ENOTTY;
 	}
